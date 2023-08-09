@@ -46,7 +46,8 @@ def parse_linea(l):
     temp[-1] = temp[-1].strip("\n") #Eliminamos caracteres de nueva linea
 
     for i in range(len(temp)): #Eliminamos las comas y las comillas del texto
-        temp[i] = re.sub(r',$|["]|\s','',temp[i])
+        temp[i] = re.sub(r',$|["]','',temp[i])
+        temp[i] = temp[i].strip(" ")
     
     return temp
 
@@ -84,24 +85,47 @@ def main():
     print("Lectura de CSV completada con ",contador, " errores")
     df = pd.DataFrame(lineas, columns=encabezados)
     df = df.replace(r'^\s*$', np.nan, regex=True)
+    print("\nInicio de datos:")
+    print(df.head())
+    print("\nFin de datos:")
+    print(df.tail())
+    print("\nTipos de los datos:")
+    print(df.info())
+    print("Información del dataframe completo:\n")
+    print(df.shape)
+    print("\n")
+
+
+
+    print("Información del archivo CSV original cargado directamente a pandas:\n")
+    dfinicial = pd.read_csv('BL-Flickr-Images-Book.csv')
+    print("Inicio datos:\n")
+    print(dfinicial.head())
+    print("Fin de los datos:\n")
+    print(dfinicial.tail())
+    print("Tipos de los datos: \n")
+    print(dfinicial.info())
+    print("Información del dataframe completo:\n")
+    print(dfinicial.shape)
+
+    print("\n\n")
     df.to_csv("dataframe.csv")
     print("CSV exportado!")
-
-
-main()
+    return df
 
 
 
-""" 
-Testing: Eliminar
-"""
-"""
+df = main()
+
+
+#Testing: Eliminar
+
+
 dfinicial = pd.read_csv('BL-Flickr-Images-Book.csv')
-df = df.replace(r'^\s*$', np.nan, regex=True)
+print(dfinicial.info())
 
-df.to_csv("dataframe.csv")
 
-print(df.columns)
+"""print(df.columns)
 print(dfinicial.columns)
 
 
@@ -112,11 +136,11 @@ diferentes = df != dfinicial
 valores_diferentes = df[diferentes].fillna('Diferente')
 
 print(valores_diferentes)
-"""
+
 
 
 #print(df[1:])
 
 
-
+"""
 
